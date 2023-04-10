@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function sendData2(status) {
-    const url2 = 'https://api.beebotte.com/v1/data/publish/vollmont/coneunit';
+    const url2 = 'https://api.beebotte.com/v1/data/publish/vollmont/led';
     const channelToken = 'token_1pNm2bOdwap7JiTA'; // ここに実際のチャンネルトークンを入れてください
     fetch(url2, {
       method: 'POST',
