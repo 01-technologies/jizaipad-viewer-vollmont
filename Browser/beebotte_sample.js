@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
     function sendData1(status) {
           //URL末尾で、チャンネルとトピックを指定
-      const url = 'https://api.beebotte.com/v1/data/publish/vollmont/coneunit';
-      const channelToken = 'your_token'; // ここに実際のチャンネルトークンを入れてください
-      fetch(url, {
+      const url1 = 'https://api.beebotte.com/v1/data/publish/vollmont/coneunit';
+      const channelToken1 = 'your_token1'; // ここに実際のチャンネルトークンを入れてください
+      fetch(url1, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Auth-Token': channelToken,
+          'X-Auth-Token': channelToken1,
         },
         body: JSON.stringify({
           data: status.toString(),
@@ -46,13 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
     function sendData2(status) {
           //URL末尾で、チャンネルとトピックを指定
-      const url = 'https://api.beebotte.com/v1/data/publish/vollmont/led';
-      const channelToken = 'your_token'; // ここに実際のチャンネルトークンを入れてください
-      fetch(url, {
+      const url2 = 'https://api.beebotte.com/v1/data/publish/vollmont/led';
+      const channelToken2 = 'your_token2'; // ここに実際のチャンネルトークンを入れてください
+      fetch(url2, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Auth-Token': channelToken,
+          'X-Auth-Token': channelToken2,
         },
         body: JSON.stringify({
           data: status.toString(),
