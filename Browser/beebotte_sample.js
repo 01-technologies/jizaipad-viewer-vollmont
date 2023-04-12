@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sendData('false');
   });
 
+  // ConeUnit
   function sendData(status) {
     const url = 'https://api.beebotte.com/v1/data/publish/vollmont/coneunit';
     const channelToken = 'token_1pNm2bOdwap7JiTA'; // ここに実際のチャンネルトークンを入れてください
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sendData2('false');
   });
 
+  // LED
   function sendData2(status) {
     const url2 = 'https://api.beebotte.com/v1/data/publish/vollmont/led';
     const channelToken = 'token_1pNm2bOdwap7JiTA'; // ここに実際のチャンネルトークンを入れてください
