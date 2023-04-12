@@ -1,3 +1,5 @@
+edited: tara, 2023-04-12 に作成されたものです。適宜修正や削除（この行を含めて）をお願いします。
+
 # jizaipad-viewer-vollmont
 
 Vollmont向け、IoTコーンユニット開発用リポジトリです。
@@ -13,18 +15,42 @@ for Mac
   - c.f. https://fukatsu.tech/install-nodejs
 - `npm install`
 
-## デバッグなど
+### デバッグなど
 
 `npm start`
 
-## ビルド
+### ビルド
 
 - `npm run build`
-  - `npm build` かも
+  - `build`ディレクトリにhtmlファイル群が生成される
 
+## CSSフレームワークについて
 
+Bootstrapを使用
 
+## 構成
 
+- `src/index.tsx`
+  - 基本はいじらないところ
+- `src/App.tsx`
+  - メインの部分、`components`で作成されたものを束ねたり、今回はいらなかったけどコンポーネント間でのデータのやりとりなどを行う
+- `components`
+  - `Video`
+    - 16:9 の比率で画面に表示するスペース
+    - カメラの映像が導入されるまではmockとして画像を挿入
+  - `SwitchMenu`
+    - ConeUnit, LEDの2種類の変更ボタンをまとめて表示するコンポーネント
+      - `SwitchButtonConeUnit`
+      - `SwitchButtonLED`
+- `services`
+  - APIに関連した動作を行うところ
+  - 以下の２つの中身は現状ほとんど同じ中身で、APIの設計が変わった際に対応しやすいようにしているため。DRYなので設計が固まり次第まとめてください。
+    - `ApiConeUnnit`
+    - `ApiLed`
+
+## 気になっていること
+
+- もし同時に操作している人がいた時に上手く動作しない可能性がある（未検証）
 
 
 
