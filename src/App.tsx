@@ -1,14 +1,14 @@
 import React from 'react';
-import SwitchMenuConeUnit from './components/SwitchMenuConeUnit';
-import SwitchMenuLED from './components/SwitchMenuLED';
+import Video from './components/Video';
+import SwitchMenu from './components/SwitchMenu';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <SwitchMenuConeUnit/>
-      <SwitchMenuLED/>
+    <div className="container d-flex flex-column align-items-center">
+      <Video/>
+      <SwitchMenu/>
     </div>
   );
-}
+};
 
 export default App;
