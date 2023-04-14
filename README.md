@@ -48,9 +48,18 @@ Bootstrapを使用
     - `ApiConeUnnit`
     - `ApiLed`
 
+## Build && Deploy
+
+`nnpm run build` して `build` ディレクトリを更新
+
+### Deploy先
+
+- https://01-technologies.github.io/jizaipad-viewer-vollmont/
+
 ## 気になっていること
 
 - もし同時に操作している人がいた時に上手く動作しない可能性がある（未検証）
+- デプロイする際に毎回Git管理で`build`を更新しているのが気になる
 
 
 
