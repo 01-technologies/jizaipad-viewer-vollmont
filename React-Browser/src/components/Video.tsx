@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
-const Video: React.FC = () => {
-    return (
-        <div
-        className="w-100"
-        style={{
-          paddingBottom: '56.25%',
-          background: `url('https://picsum.photos/200/100') no-repeat center center / cover`,
-        }}
-      ></div>
-    );
+interface VideoProps {
+  videoElement: HTMLVideoElement | null;
+}
+
+const Video: React.FC<VideoProps> = ({ videoElement }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoElement && videoRef.current) {
+      videoRef.current.srcObject = videoElement.srcObject;
+    }
+  }, [videoElement]);
+
+  return (
+    <div>
+      <video ref={videoRef} autoPlay playsInline width="100%" height="auto" />
+    </div>
+  );
 };
 
 export default Video;
