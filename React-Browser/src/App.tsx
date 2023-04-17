@@ -6,7 +6,7 @@ import { JanusObject } from './components/useStreaming';
 
 const App: React.FC = () => {
   const streamingID = 5; // ここに適切なストリーミングIDを入力してください
-  const debug = false;
+  const debug = true;
   const janusObject: JanusObject = {
     streamingHandle: null,
     janusInstance: null,
