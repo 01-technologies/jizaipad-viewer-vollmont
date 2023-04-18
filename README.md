@@ -53,7 +53,7 @@ Bootstrapを使用
 `nnpm run build` して `build` ディレクトリを更新
 
 以下のコマンドを実行することで`build`ディレクトリにあるビルド済みのソースコードを`gh-pages`というブランチにて更新できる。
-`gh-pages`ブランチは Github Pages で作成した静的ファイルたちを閲覧する際に利用される。
+`gh-pages`ブランチは Github Pages で作成した静的ファイルたちを閲覧する際に利用される。([参考記事](https://dev-yakuza.posstree.com/react/github-pages/))
 ```shell
 git subtree push --prefix build/ origin gh-pages
 ```
