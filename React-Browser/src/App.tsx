@@ -10,10 +10,13 @@ const App: React.FC = () => {
   const janusObject: JanusObject = {
     streamingHandle: null,
     janusInstance: null,
-    videoElement: document.createElement('video'),
+    video: null,
+    thumbnail: '',
+    prepared: false,
+    bitrate: 0,
   };
 
-  const videoElement = useStreaming(debug, streamingID, janusObject);
+  const { videoElement } = useStreaming(debug, streamingID, janusObject);
 
   return (
     <div className="container d-flex flex-column align-items-center">

@@ -1,5 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Janus, JanusJS } from 'janus-gateway';
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 
 const JANUS_URL = 'https://janus.jizaipad.jp:8089/janus';
 const opaqueId = `videostream-${Janus.randomString(12)}`;
@@ -7,27 +9,51 @@ const opaqueId = `videostream-${Janus.randomString(12)}`;
 export type JanusObject = {
   streamingHandle: JanusJS.PluginHandle | null;
   janusInstance: InstanceType<typeof JanusJS.Janus> | null;
-  videoElement: HTMLVideoElement;
+  video: HTMLVideoElement | null;
+  thumbnail: string;
+  prepared: boolean;
+  bitrate: number;
+  bitrateTimer?: NodeJS.Timer;
 };
 
 export const useStreaming = (
   debug: boolean,
   streamingID: number,
   janusObject: JanusObject
-): HTMLVideoElement | null => {
-  const janusStreamingInit = useCallback(() => janusInit(debug, janusObject, streamingID), []);
+): { videoElement: HTMLVideoElement | null } => {
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
 
-  janusStreamingInit();
+  const janusStreamingInit = useCallback(
+    () => janusInit(debug, janusObject, streamingID, setVideoElement),
+    [streamingID, debug, janusObject]
+  );
 
-  return janusObject.videoElement;
+  useEffect(() => {
+    janusStreamingInit();
+  }, [janusStreamingInit]);
+
+  return { videoElement };
 };
 
-const janusInit = (debug: boolean, janusObject: JanusObject, streamingID: number) => {
+const janusInit = (
+  debug: boolean,
+  janusObject: JanusObject,
+  streamingID: number,
+  setVideoElement: React.Dispatch<React.SetStateAction<HTMLVideoElement | null>>
+) => {
   Janus.init({
     debug: debug,
     // eslint-disable-next-line react-hooks/rules-of-hooks
     dependencies: Janus.useDefaultDependencies(),
     callback: () => {
+      janusObject = {
+        streamingHandle: null,
+        janusInstance: null,
+        video: null,
+        thumbnail: '',
+        prepared: false,
+        bitrate: 0,
+      };
       janusObject.janusInstance = new Janus({
         server: JANUS_URL,
         success: attachPlugin,
@@ -85,9 +111,20 @@ const janusInit = (debug: boolean, janusObject: JanusObject, streamingID: number
       }
 
       function handleRemoteTrack(track: MediaStreamTrack) {
+        const bitrate = () => {
+          const bitrate = janusObject.streamingHandle?.getBitrate();
+          return Math.ceil((Number(bitrate?.split(' ')[0]) / 1024) * 100) / 100;
+        };
         if (track.kind === 'video') {
           const mediaStream = new MediaStream([track]);
-          janusObject.videoElement.srcObject = mediaStream;
+          const videoElement = document.createElement('video');
+          videoElement.srcObject = mediaStream;
+          janusObject.video = videoElement;
+          janusObject.bitrate = bitrate();
+
+          janusObject.bitrateTimer = setInterval(() => (janusObject.bitrate = bitrate()), 1000);
+
+          setVideoElement(videoElement);
         }
       }
     },
