@@ -77,7 +77,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "rm": "rm -rf docs",
-    "mv": "mv build docs"
+    "mv": "mv build ../docs"
   },
   "eslintConfig": {
     "extends": [
