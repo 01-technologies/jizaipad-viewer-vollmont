@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Janus, JanusJS } from 'janus-gateway';
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 
 const JANUS_URL = 'https://janus.jizaipad.jp:8089/janus';
 const opaqueId = `videostream-${Janus.randomString(12)}`;
@@ -18,19 +18,24 @@ export type JanusObject = {
 
 export const useStreaming = (
   debug: boolean,
-  streamingID: number,
-  janusObject: JanusObject
+  streamingID: number
 ): { videoElement: HTMLVideoElement | null } => {
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
 
-  const janusStreamingInit = useCallback(
-    () => janusInit(debug, janusObject, streamingID, setVideoElement),
-    [streamingID, debug, janusObject]
-  );
+  const janusStreamingInit = useCallback(() => {
+    const janusObject = {
+      streamingHandle: null,
+      janusInstance: null,
+      video: videoElement,
+      thumbnail: '',
+      prepared: false,
+      bitrate: 0,
+    };
+    janusInit(debug, janusObject, streamingID, setVideoElement);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  useEffect(() => {
-    janusStreamingInit();
-  }, [janusStreamingInit]);
+  janusStreamingInit();
 
   return { videoElement };
 };
@@ -46,14 +51,6 @@ const janusInit = (
     // eslint-disable-next-line react-hooks/rules-of-hooks
     dependencies: Janus.useDefaultDependencies(),
     callback: () => {
-      janusObject = {
-        streamingHandle: null,
-        janusInstance: null,
-        video: null,
-        thumbnail: '',
-        prepared: false,
-        bitrate: 0,
-      };
       janusObject.janusInstance = new Janus({
         server: JANUS_URL,
         success: attachPlugin,
