@@ -24,7 +24,7 @@ export const useStreaming = (debug: boolean, streamingID: number): HTMLVideoElem
   const janusStreamingInit = useCallback(() => {
     janusInit(debug, streamingID, janusObject, setVideoElement);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [janusObject]);
 
   janusStreamingInit();
 
