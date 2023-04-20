@@ -15,7 +15,15 @@ const Video: React.FC<VideoProps> = ({ videoElement }) => {
 
   return (
     <div>
-      <video ref={videoRef} autoPlay playsInline width="100%" height="auto" />
+      {videoElement ? (
+        <video ref={videoRef} autoPlay playsInline width="1280" height="720" />
+      ) : (
+        <div
+          style={{ width: '100%', height: 'auto', textAlign: 'center', backgroundColor: '#f0f0f0' }}
+        >
+          <p style={{ padding: '1em' }}>ビデオが利用できません</p>
+        </div>
+      )}
     </div>
   );
 };
