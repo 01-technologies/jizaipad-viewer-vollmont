@@ -3,48 +3,39 @@
 import { Janus, JanusJS } from 'janus-gateway';
 import { useCallback, useState } from 'react';
 
-const JANUS_URL = 'https://janus.jizaipad.jp:8089/janus';
+const JANUS_URL = 'https://dev.janus.jizaipad.jp:8089/janus';
 const opaqueId = `videostream-${Janus.randomString(12)}`;
 
 export type JanusObject = {
   streamingHandle: JanusJS.PluginHandle | null;
   janusInstance: InstanceType<typeof JanusJS.Janus> | null;
-  video: HTMLVideoElement | null;
-  thumbnail: string;
-  prepared: boolean;
-  bitrate: number;
-  bitrateTimer?: NodeJS.Timer;
+  video: HTMLVideoElement;
 };
 
-export const useStreaming = (
-  debug: boolean,
-  streamingID: number
-): { videoElement: HTMLVideoElement | null } => {
-  const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
+export const useStreaming = (debug: boolean, streamingID: number): HTMLVideoElement => {
+  const janusObject = {
+    streamingHandle: null,
+    janusInstance: null,
+    video: document.createElement('video'),
+  };
+
+  const [videoElement, setVideoElement] = useState<HTMLVideoElement>(janusObject.video);
 
   const janusStreamingInit = useCallback(() => {
-    const janusObject = {
-      streamingHandle: null,
-      janusInstance: null,
-      video: videoElement,
-      thumbnail: '',
-      prepared: false,
-      bitrate: 0,
-    };
-    janusInit(debug, janusObject, streamingID, setVideoElement);
+    janusInit(debug, streamingID, janusObject, setVideoElement);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   janusStreamingInit();
 
-  return { videoElement };
+  return videoElement;
 };
 
 const janusInit = (
   debug: boolean,
-  janusObject: JanusObject,
   streamingID: number,
-  setVideoElement: React.Dispatch<React.SetStateAction<HTMLVideoElement | null>>
+  janusObject: JanusObject,
+  setVideoElement: React.Dispatch<React.SetStateAction<HTMLVideoElement>>
 ) => {
   Janus.init({
     debug: debug,
@@ -108,20 +99,11 @@ const janusInit = (
       }
 
       function handleRemoteTrack(track: MediaStreamTrack) {
-        const bitrate = () => {
-          const bitrate = janusObject.streamingHandle?.getBitrate();
-          return Math.ceil((Number(bitrate?.split(' ')[0]) / 1024) * 100) / 100;
-        };
         if (track.kind === 'video') {
           const mediaStream = new MediaStream([track]);
-          const videoElement = document.createElement('video');
-          videoElement.srcObject = mediaStream;
-          janusObject.video = videoElement;
-          janusObject.bitrate = bitrate();
-
-          janusObject.bitrateTimer = setInterval(() => (janusObject.bitrate = bitrate()), 1000);
-
-          setVideoElement(videoElement);
+          const video = document.createElement('video');
+          video.srcObject = mediaStream;
+          setVideoElement(video);
         }
       }
     },
