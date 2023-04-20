@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/jizaipad-viewer-vollmont/static/css/main.c2cab247.css",
-    "main.js": "/jizaipad-viewer-vollmont/static/js/main.a163975f.js",
+    "main.js": "/jizaipad-viewer-vollmont/static/js/main.2423132c.js",
     "index.html": "/jizaipad-viewer-vollmont/index.html",
     "main.c2cab247.css.map": "/jizaipad-viewer-vollmont/static/css/main.c2cab247.css.map",
-    "main.a163975f.js.map": "/jizaipad-viewer-vollmont/static/js/main.a163975f.js.map"
+    "main.2423132c.js.map": "/jizaipad-viewer-vollmont/static/js/main.2423132c.js.map"
   },
   "entrypoints": [
     "static/css/main.c2cab247.css",
-    "static/js/main.a163975f.js"
+    "static/js/main.2423132c.js"
   ]
 }

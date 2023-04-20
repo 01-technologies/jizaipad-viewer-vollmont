@@ -4,7 +4,7 @@ import SwitchMenu from './components/SwitchMenu';
 import { useStreaming } from './components/useStreaming';
 
 const App: React.FC = () => {
-  const streamingID = 10; // ここに適切なストリーミングIDを入力してください
+  const streamingID = 5; // ここに適切なストリーミングIDを入力してください
   const debug = true;
 
   const videoElement = useStreaming(debug, streamingID);
